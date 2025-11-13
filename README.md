@@ -17,10 +17,20 @@ Quick local run (frontend only)
    - Double-click `frontend/index.html`, or
    - Serve it locally (recommended) to avoid mixed-content issues when using fetch:
 
-     ```powershell
-     python -m http.server 5500 --directory "c:\Users\Acer\Desktop\nestle\frontend"
-     # then open http://localhost:5500
-     ```
+   Option A (Node - recommended):
+
+   ```powershell
+   # from repo root
+   node "c:\Users\Acer\Desktop\nestle\frontend\server.js"
+   # then open http://localhost:5500
+   ```
+
+   Option B (Python):
+
+   ```powershell
+   python -m http.server 5500 --directory "c:\Users\Acer\Desktop\nestle\frontend"
+   # then open http://localhost:5500
+   ```
 
 Backend (optional)
 

@@ -5,8 +5,7 @@ const cors = require('cors');
 const app = express();
 const PORT = 3000;
 
-// Use the provided Unsplash API key for server-side image fetching
-const UNSPLASH_KEY = 'JHDieSZsYiYnTdd1euPjn1sXaGoqNPHXH1n4pHCybVLx2g9SpGt2FDHe';
+// (Image fetching moved to client-side per user request.)
 
 app.use(cors());
 app.use(express.json());
@@ -28,7 +27,7 @@ app.post('/checkout', (req, res) => {
 
     console.log(`\n--- RECEIVED NEW ORDER (${newOrderId}) ---`);
     console.log(`Customer: ${orderData.customer.name}`);
-    console.log(`Total: $${orderData.total.toFixed(2)}`);
+    console.log(`Total: ₱${orderData.total.toFixed(2)}`);
     console.log(`Items Count: ${orderData.items.length}`);
     console.log('-------------------------------------\n');
 
@@ -62,35 +61,4 @@ app.post('/contact', (req, res) => {
     res.json({ success: true, message: 'Message received. Thank you!' });
 });
 
-// Images proxy: uses Unsplash Search API to return a small image url for a query
-app.get('/images', async (req, res) => {
-    const query = req.query.query || 'hoodie';
-
-    try {
-        // Use global fetch (Node 18+) to call Unsplash. If your Node version doesn't support fetch,
-        // install node-fetch and require it at the top.
-        const apiUrl = `https://api.unsplash.com/search/photos?query=${encodeURIComponent(query)}&per_page=1`;
-        const resp = await fetch(apiUrl, {
-            headers: {
-                Authorization: `Client-ID ${UNSPLASH_KEY}`
-            }
-        });
-
-        if (!resp.ok) {
-            throw new Error(`Unsplash error: ${resp.status}`);
-        }
-
-        const data = await resp.json();
-
-        if (data && data.results && data.results.length > 0) {
-            // Return the small-sized image for faster loading
-            return res.json({ url: data.results[0].urls.small });
-        }
-
-        // Fallback to Unsplash source if no results
-        return res.json({ url: `https://source.unsplash.com/400x300/?${encodeURIComponent(query)}` });
-    } catch (err) {
-        console.error('Image proxy error:', err.message || err);
-        return res.json({ url: `https://source.unsplash.com/400x300/?${encodeURIComponent(query)}` });
-    }
-});
+// Image proxy removed. Client now fetches images directly from Unsplash per user request.

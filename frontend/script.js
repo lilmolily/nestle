@@ -1,28 +1,58 @@
 // script.js
 
-// --- Basic product data (Hoodies & Jackets, 20 items) ---
+const PEXELS_API_KEY = "zMdhk5QB6WkxyVU5p1mAzU9HTYHMHjJcu5piEs8OYwkwyKmNrUhSt0VC";
+
+const CURRENCY = '₱';
+
 const productList = [
-    { id: 1, name: "Classic Hoodie", price: 49.99, desc: "Soft cotton blend hoodie with a clean, classic fit.", stock: 50 },
-    { id: 2, name: "Zip-Up Hoodie", price: 59.99, desc: "Full-zip hoodie with reinforced seams and kangaroo pockets.", stock: 40 },
-    { id: 3, name: "Oversized Hoodie", price: 54.99, desc: "Relaxed oversized fit for a contemporary streetwear look.", stock: 30 },
-    { id: 4, name: "Denim Jacket", price: 79.99, desc: "Durable denim jacket with classic button front and pockets.", stock: 25 },
-    { id: 5, name: "Leather Jacket", price: 199.00, desc: "Premium faux-leather jacket with tailored silhouette.", stock: 12 },
-    { id: 6, name: "Windbreaker Jacket", price: 69.50, desc: "Lightweight, water-resistant windbreaker for breezy days.", stock: 35 },
-    { id: 7, name: "Puffer Jacket", price: 119.99, desc: "Insulated puffer jacket with warm synthetic fill and hood.", stock: 18 },
-    { id: 8, name: "Fleece Hoodie", price: 44.00, desc: "Cozy fleece hoodie with brushed interior for extra warmth.", stock: 45 },
-    { id: 9, name: "Quilted Jacket", price: 129.00, desc: "Lightweight quilted jacket with thermal lining.", stock: 22 },
-    { id: 10, name: "Bomber Jacket", price: 89.99, desc: "Classic bomber with ribbed cuffs and hem.", stock: 28 },
-    { id: 11, name: "Track Hoodie", price: 39.99, desc: "Sporty track hoodie with breathable fabric.", stock: 60 },
-    { id: 12, name: "Cropped Hoodie", price: 42.50, desc: "Cropped length hoodie for a modern silhouette.", stock: 26 },
-    { id: 13, name: "Sherpa Jacket", price: 99.99, desc: "Soft sherpa-lined jacket for cozy warmth.", stock: 19 },
-    { id: 14, name: "Trench Jacket", price: 149.00, desc: "Water-resistant trench with tailored fit and belt.", stock: 14 },
-    { id: 15, name: "Varsity Jacket", price: 109.99, desc: "Retro varsity jacket with contrast sleeves.", stock: 16 },
-    { id: 16, name: "Moto Jacket", price: 189.00, desc: "Edgy moto-style faux-leather jacket with zip detailing.", stock: 10 },
-    { id: 17, name: "Rain Jacket", price: 64.99, desc: "Packable waterproof jacket for wet weather.", stock: 33 },
-    { id: 18, name: "Thermal Hoodie", price: 46.99, desc: "Insulating thermal hoodie for cooler days.", stock: 44 },
-    { id: 19, name: "Performance Hoodie", price: 54.00, desc: "Moisture-wicking hoodie for training and running.", stock: 38 },
-    { id: 20, name: "Parka Jacket", price: 159.00, desc: "Heavy-duty parka with faux-fur trimmed hood.", stock: 9 }
+    { id: 1, name: "Classic Hoodie", price: 49.99, desc: "Soft cotton blend hoodie with a clean, classic fit.", stock: 50, image: "https://via.placeholder.com/400x280?text=Classic+Hoodie" },
+    { id: 2, name: "Zip-Up Hoodie", price: 59.99, desc: "Full-zip hoodie with reinforced seams and kangaroo pockets.", stock: 40, image: "https://via.placeholder.com/400x280?text=Zip-Up+Hoodie" },
+    { id: 3, name: "Oversized Hoodie", price: 54.99, desc: "Relaxed oversized fit for a contemporary streetwear look.", stock: 30, image: "https://via.placeholder.com/400x280?text=Oversized+Hoodie" },
+    { id: 4, name: "Denim Jacket", price: 79.99, desc: "Durable denim jacket with classic button front and pockets.", stock: 25, image: "https://via.placeholder.com/400x280?text=Denim+Jacket" },
+    { id: 5, name: "Leather Jacket", price: 199.00, desc: "Premium faux-leather jacket with tailored silhouette.", stock: 12, image: "https://via.placeholder.com/400x280?text=Leather+Jacket" },
+    { id: 6, name: "Windbreaker Jacket", price: 69.50, desc: "Lightweight, water-resistant windbreaker for breezy days.", stock: 35, image: "https://via.placeholder.com/400x280?text=Windbreaker+Jacket" },
+    { id: 7, name: "Puffer Jacket", price: 119.99, desc: "Insulated puffer jacket with warm synthetic fill and hood.", stock: 18, image: "https://via.placeholder.com/400x280?text=Puffer+Jacket" },
+    { id: 8, name: "Fleece Hoodie", price: 44.00, desc: "Cozy fleece hoodie with brushed interior for extra warmth.", stock: 45, image: "https://via.placeholder.com/400x280?text=Fleece+Hoodie" },
+    { id: 9, name: "Quilted Jacket", price: 129.00, desc: "Lightweight quilted jacket with thermal lining.", stock: 22, image: "https://via.placeholder.com/400x280?text=Quilted+Jacket" },
+    { id: 10, name: "Bomber Jacket", price: 89.99, desc: "Classic bomber with ribbed cuffs and hem.", stock: 28, image: "https://via.placeholder.com/400x280?text=Bomber+Jacket" },
+    { id: 11, name: "Track Hoodie", price: 39.99, desc: "Sporty track hoodie with breathable fabric.", stock: 60, image: "https://via.placeholder.com/400x280?text=Track+Hoodie" },
+    { id: 12, name: "Cropped Hoodie", price: 42.50, desc: "Cropped length hoodie for a modern silhouette.", stock: 26, image: "https://via.placeholder.com/400x280?text=Cropped+Hoodie" },
+    { id: 13, name: "Sherpa Jacket", price: 99.99, desc: "Soft sherpa-lined jacket for cozy warmth.", stock: 19, image: "https://via.placeholder.com/400x280?text=Sherpa+Jacket" },
+    { id: 14, name: "Trench Jacket", price: 149.00, desc: "Water-resistant trench with tailored fit and belt.", stock: 14, image: "https://via.placeholder.com/400x280?text=Trench+Jacket" },
+    { id: 15, name: "Varsity Jacket", price: 109.99, desc: "Retro varsity jacket with contrast sleeves.", stock: 16, image: "https://via.placeholder.com/400x280?text=Varsity+Jacket" },
+    { id: 16, name: "Moto Jacket", price: 189.00, desc: "Edgy moto-style faux-leather jacket with zip detailing.", stock: 10, image: "https://via.placeholder.com/400x280?text=Moto+Jacket" },
+    { id: 17, name: "Rain Jacket", price: 64.99, desc: "Packable waterproof jacket for wet weather.", stock: 33, image: "https://via.placeholder.com/400x280?text=Rain+Jacket" },
+    { id: 18, name: "Thermal Hoodie", price: 46.99, desc: "Insulating thermal hoodie for cooler days.", stock: 44, image: "https://via.placeholder.com/400x280?text=Thermal+Hoodie" },
+    { id: 19, name: "Performance Hoodie", price: 54.00, desc: "Moisture-wicking hoodie for training and running.", stock: 38, image: "https://via.placeholder.com/400x280?text=Performance+Hoodie" },
+    { id: 20, name: "Parka Jacket", price: 159.00, desc: "Heavy-duty parka with faux-fur trimmed hood.", stock: 9, image: "https://via.placeholder.com/400x280?text=Parka+Jacket" }
 ];
+
+
+const formatCurrency = (value) => {
+    try {
+        return new Intl.NumberFormat('en-PH', { style: 'currency', currency: 'PHP' }).format(value);
+    } catch (e) {
+        return `${CURRENCY}${value.toFixed(2)}`;
+    }
+};
+
+// Fetch a product image from Pexels (returns a URL). Falls back to the provided fallback or Unsplash Source.
+async function fetchProductImage(query, fallback) {
+    try {
+        const url = `https://api.pexels.com/v1/search?query=${encodeURIComponent(query + ' shoes')}&per_page=1`;
+        const res = await fetch(url, {
+            headers: { Authorization: PEXELS_API_KEY }
+        });
+        if (!res.ok) throw new Error(`Pexels ${res.status}`);
+        const data = await res.json();
+        if (data && data.photos && data.photos.length > 0 && data.photos[0].src) {
+            return data.photos[0].src.medium || data.photos[0].src.large || data.photos[0].src.original;
+        }
+    } catch (err) {
+        console.warn('Pexels fetch failed for', query, err && err.message ? err.message : err);
+    }
+    return fallback || `https://source.unsplash.com/400x280/?${encodeURIComponent(query)}`;
+}
 
 // --- DOM Elements ---
 const productListEl = document.getElementById('product-list');
@@ -49,26 +79,17 @@ async function renderProducts() {
         const col = document.createElement('div');
         col.className = 'col';
 
-        // Try to get an image from the backend image proxy. Falls back to source.unsplash if the proxy fails.
-        let imageUrl = `https://source.unsplash.com/400x300/?hoodie,jacket,${encodeURIComponent(prod.name.split(' ')[0])}&sig=${prod.id}`;
-        try {
-            const resp = await fetch(`http://localhost:3000/images?query=${encodeURIComponent(prod.name)}`);
-            if (resp.ok) {
-                const data = await resp.json();
-                if (data && data.url) imageUrl = data.url;
-            }
-        } catch (err) {
-            // ignore and use fallback
-            console.warn('Image fetch failed, using fallback image for', prod.name);
-        }
+        // Use Pexels via client-side fetch; fall back to product's image or Unsplash Source
+        const fallbackUrl = prod.image || `https://source.unsplash.com/400x300/?${encodeURIComponent(prod.name)}&sig=${prod.id}`;
+        let imageUrl = await fetchProductImage(prod.name, fallbackUrl);
 
         col.innerHTML = `
             <div class="card h-100 shadow-sm">
-                <img src="${imageUrl}" class="card-img-top" alt="${prod.name}" loading="lazy">
+                <img src="${imageUrl}" onerror="this.onerror=null;this.src='${fallbackUrl}';" class="card-img-top" alt="${prod.name}" loading="lazy">
                 <div class="card-body d-flex flex-column">
                     <h5 class="card-title">${prod.name}</h5>
                     <p class="card-text text-secondary">${prod.desc}</p>
-                    <p class="card-text fw-bold mt-auto fs-4">$${prod.price.toFixed(2)}</p>
+                    <p class="card-text fw-bold mt-auto fs-4">${formatCurrency(prod.price)}</p>
                     <button class="btn btn-primary mt-3 btn-add-to-cart" data-id="${prod.id}">Add to Cart</button>
                 </div>
             </div>
@@ -151,7 +172,7 @@ function renderCart() {
                         <button type="button" class="btn btn-outline-secondary btn-update-cart" data-action="increase" data-id="${item.id}">+</button>
                     </div>
                     
-                    <span class="fw-bold me-3">$${(item.price * item.qty).toFixed(2)}</span>
+                    <span class="fw-bold me-3">${formatCurrency(item.price * item.qty)}</span>
 
                     <button type="button" class="btn btn-danger btn-sm btn-remove-item" data-id="${item.id}" aria-label="Remove button">❌</button>
                 </div>
@@ -161,7 +182,7 @@ function renderCart() {
     }
 
     // Update totals and counts
-    totalEl.innerText = total.toFixed(2);
+    totalEl.innerText = formatCurrency(total);
     cartCountEl.innerText = cart.reduce((sum, item) => sum + item.qty, 0); // Total items in cart
     document.getElementById('cart-total-items').innerText = cart.length; // Number of unique items
 
@@ -203,7 +224,8 @@ confirmCheckoutBtn.addEventListener('click', async (e) => {
         return;
     }
 
-    const total = parseFloat(totalEl.innerText);
+    // Compute numeric total from cart to avoid parsing formatted string
+    const total = cart.reduce((sum, item) => sum + item.price * item.qty, 0);
 
     const order = {
         customer: { name, email, address },

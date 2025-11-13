@@ -41,6 +41,14 @@ body, .app-bg {
     border-color: #3b82f6;
 }
 
+/* Ensure product images have a fixed visual area */
+.card-img-top {
+    height: 180px;
+    object-fit: cover;
+    border-top-left-radius: 12px;
+    border-top-right-radius: 12px;
+}
+
 .card-title {
     font-weight: 600;
     color: #f3f4f6;
