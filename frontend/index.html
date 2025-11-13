@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Simple E-commerce</title>
+    <!-- Bootstrap CSS CDN -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" xintegrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous">
+    <!-- Google Font (Inter for modern look) -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
+    
+    <!-- Custom Stylesheet (fixed filename) -->
+    <link rel="stylesheet" href="style.css">
+    <!-- Font Awesome for Sun/Moon Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+</head>
+<body class="app-bg"> 
+    
+    <!-- Navbar -->
+    <nav class="navbar navbar-expand-lg navbar-dark bg-dark shadow-sm sticky-top">
+        <div class="container-fluid">
+            <a class="navbar-brand" href="#">Core Zip</a>
+            
+            <div class="d-flex gap-2">
+                <!-- NEW: Theme Toggle Button -->
+                <button class="btn btn-outline-light" id="theme-toggle" type="button" aria-label="Toggle theme">
+                    <i class="fas fa-sun"></i> <!-- Sun icon (default for dark theme) -->
+                </button>
+                <!-- About & Contact Buttons -->
+                <a class="btn btn-outline-light" href="about.html">About</a>
+                <a class="btn btn-outline-light" href="contact.html">Contact</a>
+
+                <!-- Cart Button -->
+                <button class="btn btn-outline-primary position-relative" type="button" data-bs-toggle="offcanvas" data-bs-target="#cart-section" aria-controls="cart-section">
+                    Cart (<span id="cart-count">0</span>)
+                </button>
+            </div>
+        </div>
+    </nav>
+
+    <main class="container my-5">
+        
+        <!-- Info Alert -->
+        <div class="alert alert-info text-center" role="alert">
+            Click the cart button to view and checkout!
+        </div>
+
+    <!-- Products Header -->
+    <h2 class="mt-5 mb-4 text-center text-light">🔥 Hoodies & Jackets</h2>
+
+        <!-- Product List -->
+        <div id="product-list" class="row row-cols-1 row-cols-md-2 row-cols-lg-3 g-4">
+            <!-- Products will be injected here by script.js -->
+        </div>
+        <!-- About/Contact moved to separate pages (about.html, contact.html) -->
+
+    </main>
+
+    <!-- Cart Offcanvas (The actual shopping cart panel) -->
+    <div class="offcanvas offcanvas-end" tabindex="-1" id="cart-section" aria-labelledby="cart-section-label">
+        <div class="offcanvas-header">
+            <h5 class="offcanvas-title" id="cart-section-label">Shopping Cart (<span id="cart-total-items">0</span> unique items)</h5>
+            <button type="button" class="btn-close btn-close-white" data-bs-dismiss="offcanvas" aria-label="Close"></button>
+        </div>
+        <div class="offcanvas-body d-flex flex-column">
+            <!-- Cart Items List -->
+            <ul id="cart-list" class="list-group list-group-flush flex-grow-1">
+                <!-- Cart items will be injected here by script.js -->
+            </ul>
+
+            <!-- Total and Checkout Section -->
+            <div class="mt-4 pt-3 border-top" id="checkout-container" style="display: none;">
+                <div id="total-container" class="d-flex justify-content-between align-items-center mb-3">
+                    <h5 class="mb-0">Total:</h5>
+                    <h4 class="mb-0 fw-bold text-success">$<span id="total">0.00</span></h4>
+                </div>
+
+                <h6>Checkout Details</h6>
+                
+                <!-- Checkout Form -->
+                <form id="checkout-form">
+                    <div class="mb-3">
+                        <label for="customer-name" class="form-label visually-hidden">Name</label>
+                        <input type="text" class="form-control" id="customer-name" placeholder="Full Name" required>
+                    </div>
+                    <div class="mb-3">
+                        <label for="customer-email" class="form-label visually-hidden">Email</label>
+                        <input type="email" class="form-control" id="customer-email" placeholder="Email address" required>
+                    </div>
+                    <div class="mb-3">
+                        <label for="customer-address" class="form-label visually-hidden">Address</label>
+                        <textarea class="form-control" id="customer-address" rows="2" placeholder="Shipping address" required></textarea>
+                    </div>
+                    <button type="submit" class="btn btn-primary w-100 mt-3" id="confirm-checkout">Place Order</button>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <!-- Bootstrap JS Bundle -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js" xintegrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL" crossorigin="anonymous"></script>
+    <!-- Your Custom JS -->
+    <script src="script.js"></script>
+
+</body>
+</html>

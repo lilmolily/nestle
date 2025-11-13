@@ -1,0 +1,124 @@
+
+body, .app-bg {
+    background-color: #001D51; /* Pantone Imperial Blue */
+    color: #ffffff; 
+    font-family: 'Inter', sans-serif;
+}
+
+.container-my-5 {
+    padding-top: 3rem;
+    padding-bottom: 3rem;
+}
+
+/* --- 2. Navigation Bar --- */
+.navbar {
+    background-color: transparent !important; 
+    border-bottom: 3px solid rgba(255,255,255,0.06); 
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.15);
+}
+
+.navbar-brand, .nav-link {
+    color: #f3f4f6 !important;
+}
+
+.navbar-brand {
+    font-size: 1.5rem;
+    font-weight: 700;
+}
+
+/* --- 3. Product Cards Enhancement --- */
+.card {
+    background-color: #374151; 
+    border: 1px solid #4b5563; 
+    color: #f3f4f6;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    border-radius: 12px; 
+}
+
+.card:hover {
+    transform: translateY(-5px); 
+    box-shadow: 0 15px 30px rgba(59, 130, 246, 0.2); 
+    border-color: #3b82f6;
+}
+
+.card-title {
+    font-weight: 600;
+    color: #f3f4f6;
+}
+
+.card-text {
+    color: #a3a3a3 !important; 
+}
+
+.card-text.fw-bold.fs-4 {
+    color: #10b981; 
+    font-size: 1.8rem !important;
+}
+
+/* --- 4. Call-to-Action Buttons --- */
+
+.btn-primary {
+    background-color: #3b82f6 !important; 
+    border-color: #3b82f6 !important;
+    font-weight: 600;
+    transition: background-color 0.2s;
+    border-radius: 8px;
+}
+
+.btn-primary:hover {
+    background-color: #2563eb !important; 
+    border-color: #2563eb !important;
+}
+
+.btn-danger {
+    background-color: #ef4444 !important;
+    border-color: #ef4444 !important;
+}
+
+.btn-danger:hover {
+    background-color: #dc2626 !important;
+    border-color: #dc2626 !important;
+}
+
+/* --- 5. Cart Offcanvas & Checkout Section --- */
+
+.offcanvas {
+    background-color: rgba(0,0,0,0.6); /* semi-opaque dark panel for contrast */
+    color: #f3f4f6;
+}
+
+.offcanvas-header, .offcanvas-title {
+    background-color: #111827;
+    color: #f3f4f6;
+    border-bottom: 1px solid #374151;
+}
+
+.form-control {
+    background-color: #374151; 
+    color: #f3f4f6;
+    border-color: #4b5563;
+}
+
+.form-control:focus {
+    background-color: #374151;
+    color: #f3f4f6;
+    border-color: #3b82f6; 
+    box-shadow: 0 0 0 0.25rem rgba(59, 130, 246, 0.25);
+}
+
+.list-group-item {
+    background-color: #111827;
+    border-color: #374151;
+    color: #f3f4f6;
+}
+
+#total-container .fw-bold {
+    color: #10b981; 
+}
+
+.alert-info {
+    background-color: #1e40af; 
+    color: #bfdbfe;
+    border-color: #3b82f6;
+    border-radius: 8px;
+}
