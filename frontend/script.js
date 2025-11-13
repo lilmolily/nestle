@@ -233,35 +233,47 @@ confirmCheckoutBtn.addEventListener('click', async (e) => {
         total: total,
     };
 
-    // POST to backend (simulated or real)
+    // Try to POST to backend; if backend is unavailable or returns an error
+    // fallback to a client-side mock so checkout still completes in frontend-only mode.
     try {
-        // This fetch will communicate with the server.js you successfully ran on http://localhost:3000
         const res = await fetch('http://localhost:3000/checkout', {
             method: 'POST',
-            headers: {
-                'Content-Type': 'application/json',
-            },
+            headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify(order),
         });
 
-        if (!res.ok) {
-            throw new Error('Server error during checkout.');
+        if (res.ok) {
+            const data = await res.json();
+            alert(`Order placed! Order ID: ${data.orderId}`);
+            cart = [];
+            saveCart();
+            renderCart();
+            checkoutForm.reset();
+            return;
         }
 
-        const data = await res.json();
-        
-        // Success
-        alert(`Order placed! Order ID: ${data.orderId}`);
-        
-        // Clear cart and form
+        // If server replies but with non-OK (e.g. 410 Gone), fall back to mock below
+        console.warn('Backend returned non-OK status, falling back to client mock', res.status);
+    } catch (err) {
+        console.warn('Backend request failed, using client-side mock order', err && err.message ? err.message : err);
+    }
+
+    // Client-side mock order (frontend-only). Persist mock orders to localStorage.
+    try {
+        const mockOrders = JSON.parse(localStorage.getItem('mockOrders') || '[]');
+        const mockId = `MOCK-${Date.now().toString().slice(-6)}-${Math.floor(Math.random()*900+100)}`;
+        const mockOrder = { orderId: mockId, customer: order.customer, items: order.items, total: order.total, createdAt: new Date().toISOString() };
+        mockOrders.push(mockOrder);
+        localStorage.setItem('mockOrders', JSON.stringify(mockOrders));
+
+        alert(`Order placed (mock)! Order ID: ${mockId}`);
         cart = [];
         saveCart();
         renderCart();
         checkoutForm.reset();
-
     } catch (err) {
-        // Alert on error when placing order
-        alert('There was an error placing the order. Please ensure your Node.js server is running.');
+        console.error('Unable to save mock order', err);
+        alert('There was an error placing the order. Please try again.');
     }
 });
 
@@ -284,22 +296,34 @@ if (contactForm) {
         statusEl.innerText = 'Sending...';
 
         try {
-            const res = await fetch('http://localhost:3000/contact', {
-                method: 'POST',
-                headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify({ name, email, message })
-            });
+                const res = await fetch('http://localhost:3000/contact', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ name, email, message })
+                });
 
-            const data = await res.json();
-            if (res.ok && data.success) {
-                statusEl.innerText = 'Message sent — thank you!';
+                if (res.ok) {
+                    const data = await res.json();
+                    if (data && data.success) {
+                        statusEl.innerText = 'Message sent — thank you!';
+                        contactForm.reset();
+                        return;
+                    }
+                }
+
+                // If server not available or returned non-ok, fall back to client-side mock
+                console.warn('Contact endpoint not available or returned non-ok, falling back to client mock');
+                const mockContacts = JSON.parse(localStorage.getItem('mockContacts') || '[]');
+                mockContacts.push({ name, email, message, createdAt: new Date().toISOString() });
+                localStorage.setItem('mockContacts', JSON.stringify(mockContacts));
+                statusEl.innerText = 'Message saved locally — thank you!';
                 contactForm.reset();
-            } else {
-                statusEl.innerText = data.message || 'Error sending message.';
-            }
         } catch (err) {
-            console.error('Contact send error', err);
-            statusEl.innerText = 'Unable to reach server. Please try again later.';
+                console.error('Contact send error, saved locally instead', err);
+                const mockContacts = JSON.parse(localStorage.getItem('mockContacts') || '[]');
+                mockContacts.push({ name, email, message, createdAt: new Date().toISOString() });
+                localStorage.setItem('mockContacts', JSON.stringify(mockContacts));
+                statusEl.innerText = 'Unable to reach server. Message saved locally.';
         }
     });
 }
