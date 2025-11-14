@@ -5,26 +5,26 @@ const PEXELS_API_KEY = "zMdhk5QB6WkxyVU5p1mAzU9HTYHMHjJcu5piEs8OYwkwyKmNrUhSt0VC
 const CURRENCY = '₱';
 
 const productList = [
-    { id: 1, name: "Classic Hoodie", price: 49.99, desc: "Soft cotton blend hoodie with a clean, classic fit.", stock: 50, image: "https://via.placeholder.com/400x280?text=Classic+Hoodie" },
-    { id: 2, name: "Zip-Up Hoodie", price: 59.99, desc: "Full-zip hoodie with reinforced seams and kangaroo pockets.", stock: 40, image: "https://via.placeholder.com/400x280?text=Zip-Up+Hoodie" },
-    { id: 3, name: "Oversized Hoodie", price: 54.99, desc: "Relaxed oversized fit for a contemporary streetwear look.", stock: 30, image: "https://via.placeholder.com/400x280?text=Oversized+Hoodie" },
-    { id: 4, name: "Denim Jacket", price: 79.99, desc: "Durable denim jacket with classic button front and pockets.", stock: 25, image: "https://via.placeholder.com/400x280?text=Denim+Jacket" },
-    { id: 5, name: "Leather Jacket", price: 199.00, desc: "Premium faux-leather jacket with tailored silhouette.", stock: 12, image: "https://via.placeholder.com/400x280?text=Leather+Jacket" },
-    { id: 6, name: "Windbreaker Jacket", price: 69.50, desc: "Lightweight, water-resistant windbreaker for breezy days.", stock: 35, image: "https://via.placeholder.com/400x280?text=Windbreaker+Jacket" },
-    { id: 7, name: "Puffer Jacket", price: 119.99, desc: "Insulated puffer jacket with warm synthetic fill and hood.", stock: 18, image: "https://via.placeholder.com/400x280?text=Puffer+Jacket" },
-    { id: 8, name: "Fleece Hoodie", price: 44.00, desc: "Cozy fleece hoodie with brushed interior for extra warmth.", stock: 45, image: "https://via.placeholder.com/400x280?text=Fleece+Hoodie" },
-    { id: 9, name: "Quilted Jacket", price: 129.00, desc: "Lightweight quilted jacket with thermal lining.", stock: 22, image: "https://via.placeholder.com/400x280?text=Quilted+Jacket" },
-    { id: 10, name: "Bomber Jacket", price: 89.99, desc: "Classic bomber with ribbed cuffs and hem.", stock: 28, image: "https://via.placeholder.com/400x280?text=Bomber+Jacket" },
-    { id: 11, name: "Track Hoodie", price: 39.99, desc: "Sporty track hoodie with breathable fabric.", stock: 60, image: "https://via.placeholder.com/400x280?text=Track+Hoodie" },
-    { id: 12, name: "Cropped Hoodie", price: 42.50, desc: "Cropped length hoodie for a modern silhouette.", stock: 26, image: "https://via.placeholder.com/400x280?text=Cropped+Hoodie" },
-    { id: 13, name: "Sherpa Jacket", price: 99.99, desc: "Soft sherpa-lined jacket for cozy warmth.", stock: 19, image: "https://via.placeholder.com/400x280?text=Sherpa+Jacket" },
-    { id: 14, name: "Trench Jacket", price: 149.00, desc: "Water-resistant trench with tailored fit and belt.", stock: 14, image: "https://via.placeholder.com/400x280?text=Trench+Jacket" },
-    { id: 15, name: "Varsity Jacket", price: 109.99, desc: "Retro varsity jacket with contrast sleeves.", stock: 16, image: "https://via.placeholder.com/400x280?text=Varsity+Jacket" },
-    { id: 16, name: "Moto Jacket", price: 189.00, desc: "Edgy moto-style faux-leather jacket with zip detailing.", stock: 10, image: "https://via.placeholder.com/400x280?text=Moto+Jacket" },
-    { id: 17, name: "Rain Jacket", price: 64.99, desc: "Packable waterproof jacket for wet weather.", stock: 33, image: "https://via.placeholder.com/400x280?text=Rain+Jacket" },
-    { id: 18, name: "Thermal Hoodie", price: 46.99, desc: "Insulating thermal hoodie for cooler days.", stock: 44, image: "https://via.placeholder.com/400x280?text=Thermal+Hoodie" },
-    { id: 19, name: "Performance Hoodie", price: 54.00, desc: "Moisture-wicking hoodie for training and running.", stock: 38, image: "https://via.placeholder.com/400x280?text=Performance+Hoodie" },
-    { id: 20, name: "Parka Jacket", price: 159.00, desc: "Heavy-duty parka with faux-fur trimmed hood.", stock: 9, image: "https://via.placeholder.com/400x280?text=Parka+Jacket" }
+    { id: 1, name: "Classic Hoodie", price: 949.99, desc: "Soft cotton blend hoodie with a clean, classic fit.", stock: 50, image: "https://via.placeholder.com/400x280?text=Classic+Hoodie" },
+    { id: 2, name: "Zip-Up Hoodie", price: 959.99, desc: "Full-zip hoodie with reinforced seams and kangaroo pockets.", stock: 40, image: "https://via.placeholder.com/400x280?text=Zip-Up+Hoodie" },
+    { id: 3, name: "Oversized Hoodie", price: 954.99, desc: "Relaxed oversized fit for a contemporary streetwear look.", stock: 30, image: "https://via.placeholder.com/400x280?text=Oversized+Hoodie" },
+    { id: 4, name: "Denim Jacket", price: 979.99, desc: "Durable denim jacket with classic button front and pockets.", stock: 25, image: "https://via.placeholder.com/400x280?text=Denim+Jacket" },
+    { id: 5, name: "Leather Jacket", price: 1199.00, desc: "Premium faux-leather jacket with tailored silhouette.", stock: 12, image: "https://via.placeholder.com/400x280?text=Leather+Jacket" },
+    { id: 6, name: "Windbreaker Jacket", price: 969.50, desc: "Lightweight, water-resistant windbreaker for breezy days.", stock: 35, image: "https://via.placeholder.com/400x280?text=Windbreaker+Jacket" },
+    { id: 7, name: "Puffer Jacket", price: 1119.99, desc: "Insulated puffer jacket with warm synthetic fill and hood.", stock: 18, image: "https://via.placeholder.com/400x280?text=Puffer+Jacket" },
+    { id: 8, name: "Fleece Hoodie", price: 944.00, desc: "Cozy fleece hoodie with brushed interior for extra warmth.", stock: 45, image: "https://via.placeholder.com/400x280?text=Fleece+Hoodie" },
+    { id: 9, name: "Quilted Jacket", price: 1129.00, desc: "Lightweight quilted jacket with thermal lining.", stock: 22, image: "https://via.placeholder.com/400x280?text=Quilted+Jacket" },
+    { id: 10, name: "Bomber Jacket", price: 989.99, desc: "Classic bomber with ribbed cuffs and hem.", stock: 28, image: "https://via.placeholder.com/400x280?text=Bomber+Jacket" },
+    { id: 11, name: "Track Hoodie", price: 939.99, desc: "Sporty track hoodie with breathable fabric.", stock: 60, image: "https://via.placeholder.com/400x280?text=Track+Hoodie" },
+    { id: 12, name: "Cropped Hoodie", price: 942.50, desc: "Cropped length hoodie for a modern silhouette.", stock: 26, image: "https://via.placeholder.com/400x280?text=Cropped+Hoodie" },
+    { id: 13, name: "Sherpa Jacket", price: 999.99, desc: "Soft sherpa-lined jacket for cozy warmth.", stock: 19, image: "https://via.placeholder.com/400x280?text=Sherpa+Jacket" },
+    { id: 14, name: "Trench Jacket", price: 1149.00, desc: "Water-resistant trench with tailored fit and belt.", stock: 14, image: "https://via.placeholder.com/400x280?text=Trench+Jacket" },
+    { id: 15, name: "Varsity Jacket", price: 1109.99, desc: "Retro varsity jacket with contrast sleeves.", stock: 16, image: "https://via.placeholder.com/400x280?text=Varsity+Jacket" },
+    { id: 16, name: "Moto Jacket", price: 1189.00, desc: "Edgy moto-style faux-leather jacket with zip detailing.", stock: 10, image: "https://via.placeholder.com/400x280?text=Moto+Jacket" },
+    { id: 17, name: "Rain Jacket", price: 964.99, desc: "Packable waterproof jacket for wet weather.", stock: 33, image: "https://via.placeholder.com/400x280?text=Rain+Jacket" },
+    { id: 18, name: "Thermal Hoodie", price: 946.99, desc: "Insulating thermal hoodie for cooler days.", stock: 44, image: "https://via.placeholder.com/400x280?text=Thermal+Hoodie" },
+    { id: 19, name: "Performance Hoodie", price: 954.00, desc: "Moisture-wicking hoodie for training and running.", stock: 38, image: "https://via.placeholder.com/400x280?text=Performance+Hoodie" },
+    { id: 20, name: "Parka Jacket", price: 1159.00, desc: "Heavy-duty parka with faux-fur trimmed hood.", stock: 9, image: "https://via.placeholder.com/400x280?text=Parka+Jacket" }
 ];
 
 
