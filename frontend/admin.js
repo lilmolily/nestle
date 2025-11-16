@@ -1,7 +1,8 @@
 // admin.js - Admin Dashboard JavaScript
 
 const PEXELS_API_KEY = "zMdhk5QB6WkxyVU5p1mAzU9HTYHMHjJcu5piEs8OYwkwyKmNrUhSt0VC";
-const API_BASE_URL = "https://nestle-k2zh.onrender.com/api"; // Render backend URL
+// Use a relative API path when frontend is served from the same backend service on Render
+const API_BASE_URL = "/api"; // Backend API root (same origin)
 
 let products = [];
 

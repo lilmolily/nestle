@@ -1,7 +1,8 @@
 // script.js
 
 const PEXELS_API_KEY = "zMdhk5QB6WkxyVU5p1mAzU9HTYHMHjJcu5piEs8OYwkwyKmNrUhSt0VC";
-const API_BASE_URL = "https://nestle-k2zh.onrender.com/api"; // Render backend URL
+// When serving frontend from the same backend service, use a relative path so the origin matches.
+const API_BASE_URL = "/api"; // Backend API root (same origin)
 const CURRENCY = '₱';
 
 // Load products from backend or localStorage

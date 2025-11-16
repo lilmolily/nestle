@@ -29,6 +29,12 @@ const orderRoutes = require('./routes/orders');
 app.use('/api/products', productRoutes);
 app.use('/api/orders', orderRoutes);
 
+// Serve frontend static files (when deploying both frontend+backend on the same service)
+const frontendPath = path.join(__dirname, '..', 'frontend');
+if (fs.existsSync(frontendPath)) {
+  app.use(express.static(frontendPath));
+}
+
 // Note: frontend is hosted separately as a static site (recommended).
 // If you prefer the backend to serve static files, re-enable static serving here.
 
@@ -40,6 +46,21 @@ app.get('/api', (req, res) => {
 // Health check
 app.get('/health', (req, res) => {
   res.json({ status: 'OK', timestamp: new Date() });
+});
+
+// Catch-all: serve index.html for any non-API routes (enables client routing)
+app.get('*', (req, res) => {
+  // Let API routes return 404/handled above
+  if (req.path.startsWith('/api')) {
+    return res.status(404).json({ error: 'API route not found' });
+  }
+
+  const indexFile = path.join(frontendPath, 'index.html');
+  if (fs.existsSync(indexFile)) {
+    return res.sendFile(indexFile);
+  }
+
+  return res.status(404).send('Not Found');
 });
 
 // Error handling middleware
