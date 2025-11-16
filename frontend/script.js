@@ -1,7 +1,7 @@
 // script.js
 
 const PEXELS_API_KEY = "zMdhk5QB6WkxyVU5p1mAzU9HTYHMHjJcu5piEs8OYwkwyKmNrUhSt0VC";
-const API_BASE_URL = "http://localhost:5000/api"; // Change to your Render URL in production
+const API_BASE_URL = "https://nestle-k2zh.onrender.com/api"; // Render backend URL
 const CURRENCY = '₱';
 
 // Load products from backend or localStorage

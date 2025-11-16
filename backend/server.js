@@ -1,5 +1,6 @@
 require('dotenv').config();
 const express = require('express');
+const fs = require('fs');
 const mongoose = require('mongoose');
 const cors = require('cors');
 const path = require('path');
@@ -27,6 +28,9 @@ const orderRoutes = require('./routes/orders');
 // Use Routes
 app.use('/api/products', productRoutes);
 app.use('/api/orders', orderRoutes);
+
+// Note: frontend is hosted separately as a static site (recommended).
+// If you prefer the backend to serve static files, re-enable static serving here.
 
 // Root endpoint
 app.get('/api', (req, res) => {
