@@ -5,6 +5,19 @@ const API_BASE_URL = "https://nestle-k2zh.onrender.com/api"; // Render backend U
 
 let products = [];
 
+// LocalStorage helpers for admin-created products (used when backend is unavailable)
+function getAdminProducts() {
+    // Prefer the up-to-date key used by the storefront (`adminProductsUpdated`) but fall back to older key `adminProducts`.
+    const updated = localStorage.getItem('adminProductsUpdated') || localStorage.getItem('adminProducts');
+    return updated ? JSON.parse(updated) : [];
+}
+
+function saveAdminProducts(list) {
+    localStorage.setItem('adminProducts', JSON.stringify(list));
+    // Also set adminProductsUpdated so the storefront can pick up new products immediately
+    localStorage.setItem('adminProductsUpdated', JSON.stringify(list));
+}
+
 // Check if admin is authenticated
 function checkAdminAuth() {
     if (!localStorage.getItem('adminToken')) {
@@ -220,14 +233,15 @@ document.addEventListener('DOMContentLoaded', async function() {
                     alert('Product updated (local)!');
                 }
             } else {
-                const newId = products.length > 0 ? Math.max(...products.map(p => p.id || 0)) + 1 : 1;
+                const newId = products.length > 0 ? Math.max(...products.map(p => parseInt(p.id) || 0)) + 1 : 1;
                 products.push({
-                    id: newId,
-                price: price,
-                desc: desc,
-                stock: stock,
-                image: imageUrl
-            });
+                    id: String(newId),
+                    name: name,
+                    price: price,
+                    desc: desc,
+                    stock: stock,
+                    image: imageUrl
+                });
             alert('Product added successfully!');
         }
 

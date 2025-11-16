@@ -27,7 +27,8 @@ async function fetchProductsFromBackend() {
     }
 
     // Fallback to localStorage
-    const adminUpdated = localStorage.getItem('adminProductsUpdated');
+    // Accept both keys (new "adminProductsUpdated" used by storefront or legacy "adminProducts")
+    const adminUpdated = localStorage.getItem('adminProductsUpdated') || localStorage.getItem('adminProducts');
     if (adminUpdated) {
         productList = JSON.parse(adminUpdated);
         return productList;
@@ -109,7 +110,8 @@ async function renderProducts() {
     // Attach event listeners to all "Add to Cart" buttons
     document.querySelectorAll('.btn-add-to-cart').forEach(button => {
         button.addEventListener('click', (e) => {
-            const id = parseInt(e.target.dataset.id);
+            // IDs from backend are strings (ObjectId). Keep as string so lookup works.
+            const id = e.target.dataset.id;
             addToCart(id);
         });
     });
@@ -198,7 +200,8 @@ function renderCart() {
     // Attach cart button listeners (must be done after rendering)
     document.querySelectorAll('.btn-update-cart').forEach(button => {
         button.addEventListener('click', (e) => {
-            const id = parseInt(e.currentTarget.dataset.id);
+            // Use the string ID. Avoid parseInt because backend IDs may be non-numeric.
+            const id = e.currentTarget.dataset.id;
             const action = e.currentTarget.dataset.action;
             const delta = action === 'increase' ? 1 : -1;
             updateCart(id, delta);
@@ -207,7 +210,7 @@ function renderCart() {
 
     document.querySelectorAll('.btn-remove-item').forEach(button => {
         button.addEventListener('click', (e) => {
-            const id = parseInt(e.currentTarget.dataset.id);
+            const id = e.currentTarget.dataset.id;
             removeFromCart(id);
         });
     });
