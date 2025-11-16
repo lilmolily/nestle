@@ -331,3 +331,7 @@ document.addEventListener('DOMContentLoaded', async function() {
         window.location.href = 'admin-login.html';
     });
 });
+
+app.get('*', (req, res) => {
+  res.sendFile(path.join(__dirname, '..', 'frontend', 'index.html'));
+});
