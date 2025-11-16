@@ -24,26 +24,26 @@
         </div>
     </nav>
 
-    <main class="container my-5 text-light">
-        <h1>Contact Us</h1>
-        <p class="mb-3">Have a question? Fill out the form and we'll get back to you within 48 hours.</p>
+    <main class="container my-5" style="background: #f8f9fa; padding: 2rem; border-radius: 8px;">
+        <h1 style="color: #111; font-weight: 700; margin-bottom: 1.5rem;">Contact Us</h1>
+        <p class="mb-3" style="color: #444; font-size: 1.05rem;">Have a question? Fill out the form and we'll get back to you within 48 hours.</p>
 
         <form id="contact-form" class="row g-3" style="max-width:700px;">
             <div class="col-md-6">
                 <label for="contact-name" class="form-label visually-hidden">Name</label>
-                <input type="text" class="form-control" id="contact-name" placeholder="Full name" required>
+                <input type="text" class="form-control" id="contact-name" placeholder="Full name" required style="color: #111;">
             </div>
             <div class="col-md-6">
                 <label for="contact-email" class="form-label visually-hidden">Email</label>
-                <input type="email" class="form-control" id="contact-email" placeholder="Email" required>
+                <input type="email" class="form-control" id="contact-email" placeholder="Email" required style="color: #111;">
             </div>
             <div class="col-12">
                 <label for="contact-message" class="form-label visually-hidden">Message</label>
-                <textarea id="contact-message" class="form-control" rows="4" placeholder="How can we help?" required></textarea>
+                <textarea id="contact-message" class="form-control" rows="4" placeholder="How can we help?" required style="color: #111;"></textarea>
             </div>
             <div class="col-12">
-                <button type="submit" class="btn btn-outline-light" id="contact-send">Send Message</button>
-                <span id="contact-status" class="ms-3 text-light"></span>
+                <button type="submit" class="btn btn-primary" id="contact-send">Send Message</button>
+                <span id="contact-status" class="ms-3" style="color: #333;"></span>
             </div>
         </form>
     </main>
