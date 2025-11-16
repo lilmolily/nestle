@@ -145,3 +145,26 @@ h2.text-light {
     border-color: #6a90b4; /* accent border color */
     border-radius: 8px;
 }
+
+/* --- Page-specific overrides --- */
+/* Make contact form inputs and textarea white with black border for readability */
+#contact-form .form-control {
+    background-color: #ffffff !important;
+    color: #000000 !important;
+    border: 1px solid #000000 !important;
+}
+
+/* Ensure focused state keeps black border and subtle outline */
+#contact-form .form-control:focus {
+    background-color: #ffffff !important;
+    color: #000000 !important;
+    border-color: #000000 !important;
+    box-shadow: 0 0 0 0.15rem rgba(0,0,0,0.08);
+}
+
+/* Specific textarea rule in case it needs explicit sizing/contrast */
+#contact-message.form-control {
+    background-color: #ffffff !important;
+    color: #000000 !important;
+    border: 1px solid #000000 !important;
+}
