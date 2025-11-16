@@ -1,22 +1,50 @@
-// Backend functionality intentionally disabled.
-// The original server.js has been replaced with a disabled stub so POST
-// requests (e.g. /checkout or /contact) return 410 Gone. This prevents
-// the backend from processing orders while keeping the repository intact.
-
+require('dotenv').config();
 const express = require('express');
-const app = express();
-const PORT = 3000;
+const mongoose = require('mongoose');
+const cors = require('cors');
+const path = require('path');
 
+const app = express();
+
+// Middleware
+app.use(cors());
 app.use(express.json());
 
-app.post('*', (req, res) => {
-  res.status(410).json({ success: false, message: 'Backend disabled by user. Server removed.' });
+// MongoDB Connection
+const mongoURI = process.env.MONGODB_URI || 'mongodb+srv://franconicelyjane:nicely@cluster0.g0xbeuh.mongodb.net/corezip';
+
+mongoose.connect(mongoURI, {
+  useNewUrlParser: true,
+  useUnifiedTopology: true,
+})
+.then(() => console.log('MongoDB connected successfully'))
+.catch(err => console.log('MongoDB connection error:', err));
+
+// Import Routes
+const productRoutes = require('./routes/products');
+const orderRoutes = require('./routes/orders');
+
+// Use Routes
+app.use('/api/products', productRoutes);
+app.use('/api/orders', orderRoutes);
+
+// Root endpoint
+app.get('/api', (req, res) => {
+  res.json({ message: 'Core Zip Backend API is running!' });
 });
 
-app.get('*', (req, res) => {
-  res.status(410).send('Backend disabled by user.');
+// Health check
+app.get('/health', (req, res) => {
+  res.json({ status: 'OK', timestamp: new Date() });
 });
 
-app.listen(PORT, () => console.log(`Backend disabled stub listening on port ${PORT}`));
+// Error handling middleware
+app.use((err, req, res, next) => {
+  console.error('Error:', err);
+  res.status(500).json({ error: err.message || 'Internal Server Error' });
+});
 
-// Image proxy removed. Client now fetches images directly from Unsplash per user request.
+const PORT = process.env.PORT || 5000;
+app.listen(PORT, () => {
+  console.log(`Server running on port ${PORT}`);
+});

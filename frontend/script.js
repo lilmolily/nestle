@@ -1,31 +1,40 @@
 // script.js
 
 const PEXELS_API_KEY = "zMdhk5QB6WkxyVU5p1mAzU9HTYHMHjJcu5piEs8OYwkwyKmNrUhSt0VC";
-
+const API_BASE_URL = "http://localhost:5000/api"; // Change to your Render URL in production
 const CURRENCY = '₱';
 
-const productList = [
-    { id: 1, name: "Classic Hoodie", price: 949.99, desc: "Soft cotton blend hoodie with a clean, classic fit.", stock: 50, image: "https://via.placeholder.com/400x280?text=Classic+Hoodie" },
-    { id: 2, name: "Zip-Up Hoodie", price: 959.99, desc: "Full-zip hoodie with reinforced seams and kangaroo pockets.", stock: 40, image: "https://via.placeholder.com/400x280?text=Zip-Up+Hoodie" },
-    { id: 3, name: "Oversized Hoodie", price: 954.99, desc: "Relaxed oversized fit for a contemporary streetwear look.", stock: 30, image: "https://via.placeholder.com/400x280?text=Oversized+Hoodie" },
-    { id: 4, name: "Denim Jacket", price: 979.99, desc: "Durable denim jacket with classic button front and pockets.", stock: 25, image: "https://via.placeholder.com/400x280?text=Denim+Jacket" },
-    { id: 5, name: "Leather Jacket", price: 1199.00, desc: "Premium faux-leather jacket with tailored silhouette.", stock: 12, image: "https://via.placeholder.com/400x280?text=Leather+Jacket" },
-    { id: 6, name: "Windbreaker Jacket", price: 969.50, desc: "Lightweight, water-resistant windbreaker for breezy days.", stock: 35, image: "https://via.placeholder.com/400x280?text=Windbreaker+Jacket" },
-    { id: 7, name: "Puffer Jacket", price: 1119.99, desc: "Insulated puffer jacket with warm synthetic fill and hood.", stock: 18, image: "https://via.placeholder.com/400x280?text=Puffer+Jacket" },
-    { id: 8, name: "Fleece Hoodie", price: 944.00, desc: "Cozy fleece hoodie with brushed interior for extra warmth.", stock: 45, image: "https://via.placeholder.com/400x280?text=Fleece+Hoodie" },
-    { id: 9, name: "Quilted Jacket", price: 1129.00, desc: "Lightweight quilted jacket with thermal lining.", stock: 22, image: "https://via.placeholder.com/400x280?text=Quilted+Jacket" },
-    { id: 10, name: "Bomber Jacket", price: 989.99, desc: "Classic bomber with ribbed cuffs and hem.", stock: 28, image: "https://via.placeholder.com/400x280?text=Bomber+Jacket" },
-    { id: 11, name: "Track Hoodie", price: 939.99, desc: "Sporty track hoodie with breathable fabric.", stock: 60, image: "https://via.placeholder.com/400x280?text=Track+Hoodie" },
-    { id: 12, name: "Cropped Hoodie", price: 942.50, desc: "Cropped length hoodie for a modern silhouette.", stock: 26, image: "https://via.placeholder.com/400x280?text=Cropped+Hoodie" },
-    { id: 13, name: "Sherpa Jacket", price: 999.99, desc: "Soft sherpa-lined jacket for cozy warmth.", stock: 19, image: "https://via.placeholder.com/400x280?text=Sherpa+Jacket" },
-    { id: 14, name: "Trench Jacket", price: 1149.00, desc: "Water-resistant trench with tailored fit and belt.", stock: 14, image: "https://via.placeholder.com/400x280?text=Trench+Jacket" },
-    { id: 15, name: "Varsity Jacket", price: 1109.99, desc: "Retro varsity jacket with contrast sleeves.", stock: 16, image: "https://via.placeholder.com/400x280?text=Varsity+Jacket" },
-    { id: 16, name: "Moto Jacket", price: 1189.00, desc: "Edgy moto-style faux-leather jacket with zip detailing.", stock: 10, image: "https://via.placeholder.com/400x280?text=Moto+Jacket" },
-    { id: 17, name: "Rain Jacket", price: 964.99, desc: "Packable waterproof jacket for wet weather.", stock: 33, image: "https://via.placeholder.com/400x280?text=Rain+Jacket" },
-    { id: 18, name: "Thermal Hoodie", price: 946.99, desc: "Insulating thermal hoodie for cooler days.", stock: 44, image: "https://via.placeholder.com/400x280?text=Thermal+Hoodie" },
-    { id: 19, name: "Performance Hoodie", price: 954.00, desc: "Moisture-wicking hoodie for training and running.", stock: 38, image: "https://via.placeholder.com/400x280?text=Performance+Hoodie" },
-    { id: 20, name: "Parka Jacket", price: 1159.00, desc: "Heavy-duty parka with faux-fur trimmed hood.", stock: 9, image: "https://via.placeholder.com/400x280?text=Parka+Jacket" }
-];
+// Load products from backend or localStorage
+let productList = [];
+
+async function fetchProductsFromBackend() {
+    try {
+        const res = await fetch(`${API_BASE_URL}/products`);
+        if (res.ok) {
+            const products = await res.json();
+            productList = products.map(p => ({
+                id: p._id,
+                name: p.name,
+                price: p.price,
+                desc: p.description,
+                stock: p.stock,
+                image: p.imageUrl,
+            }));
+            return productList;
+        }
+    } catch (err) {
+        console.warn('Failed to fetch products from backend, using localStorage:', err);
+    }
+
+    // Fallback to localStorage
+    const adminUpdated = localStorage.getItem('adminProductsUpdated');
+    if (adminUpdated) {
+        productList = JSON.parse(adminUpdated);
+        return productList;
+    }
+
+    return [];
+}
 
 
 const formatCurrency = (value) => {
@@ -224,19 +233,22 @@ confirmCheckoutBtn.addEventListener('click', async (e) => {
         return;
     }
 
-    // Compute numeric total from cart to avoid parsing formatted string
+    // Compute numeric total from cart
     const total = cart.reduce((sum, item) => sum + item.price * item.qty, 0);
 
     const order = {
-        customer: { name, email, address },
-        items: cart,
-        total: total,
+        customerName: name,
+        customerEmail: email,
+        customerAddress: address,
+        items: cart.map(item => ({
+            productId: item.id,
+            quantity: item.qty,
+        })),
+        totalPrice: total,
     };
 
-    // Try to POST to backend; if backend is unavailable or returns an error
-    // fallback to a client-side mock so checkout still completes in frontend-only mode.
     try {
-        const res = await fetch('http://localhost:3000/checkout', {
+        const res = await fetch(`${API_BASE_URL}/orders`, {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify(order),
@@ -244,7 +256,7 @@ confirmCheckoutBtn.addEventListener('click', async (e) => {
 
         if (res.ok) {
             const data = await res.json();
-            alert(`Order placed! Order ID: ${data.orderId}`);
+            alert(`Order placed successfully! Order ID: ${data.order._id}`);
             cart = [];
             saveCart();
             renderCart();
@@ -252,28 +264,21 @@ confirmCheckoutBtn.addEventListener('click', async (e) => {
             return;
         }
 
-        // If server replies but with non-OK (e.g. 410 Gone), fall back to mock below
-        console.warn('Backend returned non-OK status, falling back to client mock', res.status);
+        throw new Error(`Server returned ${res.status}`);
     } catch (err) {
-        console.warn('Backend request failed, using client-side mock order', err && err.message ? err.message : err);
-    }
-
-    // Client-side mock order (frontend-only). Persist mock orders to localStorage.
-    try {
+        console.warn('Backend order failed, saving locally:', err);
+        // Client-side mock fallback
         const mockOrders = JSON.parse(localStorage.getItem('mockOrders') || '[]');
         const mockId = `MOCK-${Date.now().toString().slice(-6)}-${Math.floor(Math.random()*900+100)}`;
-        const mockOrder = { orderId: mockId, customer: order.customer, items: order.items, total: order.total, createdAt: new Date().toISOString() };
+        const mockOrder = { orderId: mockId, customerName: name, customerEmail: email, customerAddress: address, items: cart, total: total, createdAt: new Date().toISOString() };
         mockOrders.push(mockOrder);
         localStorage.setItem('mockOrders', JSON.stringify(mockOrders));
 
-        alert(`Order placed (mock)! Order ID: ${mockId}`);
+        alert(`Order saved locally (backend unavailable). Order ID: ${mockId}`);
         cart = [];
         saveCart();
         renderCart();
         checkoutForm.reset();
-    } catch (err) {
-        console.error('Unable to save mock order', err);
-        alert('There was an error placing the order. Please try again.');
     }
 });
 
@@ -329,5 +334,8 @@ if (contactForm) {
 }
 
 // --- Initialization ---
-renderProducts();
-renderCart();
+(async () => {
+    await fetchProductsFromBackend();
+    renderProducts();
+    renderCart();
+})();

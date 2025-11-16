@@ -1,0 +1,211 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin Dashboard - Core Zip</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" crossorigin="anonymous">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <link rel="stylesheet" href="style.css">
+    <style>
+        label {
+            color: #111 !important;
+        }
+        .admin-header {
+            background: linear-gradient(135deg, #001D51 0%, #26374D 100%);
+            color: white;
+            padding: 2rem;
+            margin-bottom: 2rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        .admin-header h1 {
+            margin: 0;
+            font-weight: 700;
+        }
+        .btn-logout {
+            background: #dc3545;
+            border: none;
+        }
+        .btn-logout:hover {
+            background: #c82333;
+        }
+        .product-form-container {
+            background: white;
+            padding: 2rem;
+            border-radius: 12px;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+            margin-bottom: 2rem;
+        }
+        .product-table-container {
+            background: white;
+            padding: 2rem;
+            border-radius: 12px;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+        }
+        .btn-add-product {
+            background: #28a745;
+            border: none;
+        }
+        .btn-add-product:hover {
+            background: #218838;
+        }
+        .btn-edit {
+            background: #007bff;
+            border: none;
+            padding: 0.4rem 0.8rem;
+            font-size: 0.85rem;
+        }
+        .btn-delete {
+            background: #dc3545;
+            border: none;
+            padding: 0.4rem 0.8rem;
+            font-size: 0.85rem;
+        }
+        .product-image-preview {
+            max-width: 150px;
+            max-height: 150px;
+            object-fit: cover;
+            border-radius: 8px;
+            margin-top: 1rem;
+        }
+        .image-search-results {
+            max-height: 300px;
+            overflow-y: auto;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            padding: 1rem;
+            margin-top: 1rem;
+            display: none;
+        }
+        .image-option {
+            cursor: pointer;
+            padding: 0.5rem;
+            border: 2px solid transparent;
+            border-radius: 4px;
+            margin-bottom: 0.5rem;
+            transition: all 0.3s;
+        }
+        .image-option:hover,
+        .image-option.selected {
+            border-color: #001D51;
+            background: #f0f0f0;
+        }
+        .image-option img {
+            max-width: 100%;
+            max-height: 100px;
+            object-fit: cover;
+            border-radius: 4px;
+        }
+        .loading-spinner {
+            display: none;
+            text-align: center;
+            padding: 1rem;
+        }
+        .modal-header {
+            background: #001D51;
+            color: white;
+        }
+        .modal-header .btn-close {
+            filter: brightness(0) invert(1);
+        }
+    </style>
+</head>
+<body class="app-bg">
+    <div class="admin-header">
+        <h1><i class="fas fa-cogs"></i> Admin Dashboard</h1>
+        <button class="btn btn-logout" id="logout-btn">Logout</button>
+    </div>
+
+    <div class="container my-5">
+        <!-- Add/Edit Product Form -->
+        <div class="product-form-container">
+            <h3 class="mb-4">
+                <span id="form-title">Add New Product</span>
+            </h3>
+            <form id="product-form">
+                <div class="row">
+                    <div class="col-md-6 mb-3">
+                        <label for="product-name" class="form-label">Product Name</label>
+                        <input type="text" class="form-control" id="product-name" placeholder="e.g., Premium Hoodie" required>
+                    </div>
+                    <div class="col-md-6 mb-3">
+                        <label for="product-price" class="form-label">Price (₱)</label>
+                        <input type="number" class="form-control" id="product-price" placeholder="e.g., 999.99" step="0.01" required>
+                    </div>
+                </div>
+
+                <div class="mb-3">
+                    <label for="product-desc" class="form-label">Description</label>
+                    <textarea class="form-control" id="product-desc" rows="3" placeholder="Product description..." required></textarea>
+                </div>
+
+                <div class="row">
+                    <div class="col-md-6 mb-3">
+                        <label for="product-stock" class="form-label">Stock</label>
+                        <input type="number" class="form-control" id="product-stock" placeholder="e.g., 50" required>
+                    </div>
+                    <div class="col-md-6 mb-3">
+                        <label for="product-image-search" class="form-label">Search Product Image (Pexels)</label>
+                        <div class="input-group">
+                            <input type="text" class="form-control" id="product-image-search" placeholder="e.g., hoodie, jacket...">
+                            <button type="button" class="btn btn-outline-secondary" id="search-image-btn">Search</button>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="loading-spinner" id="image-loading">
+                    <div class="spinner-border spinner-border-sm text-primary" role="status">
+                        <span class="visually-hidden">Loading...</span>
+                    </div> Searching images...
+                </div>
+
+                <div class="image-search-results" id="image-results"></div>
+
+                <div>
+                    <label class="form-label">Image Preview</label>
+                    <img id="product-image-preview" class="product-image-preview" src="" alt="No image selected" style="display:none;">
+                    <input type="hidden" id="product-image-url">
+                    <small class="text-muted">Image URL: <span id="image-url-display">None</span></small>
+                </div>
+
+                <div class="mt-4 d-flex gap-2">
+                    <button type="submit" class="btn btn-primary btn-add-product" id="submit-btn">Add Product</button>
+                    <button type="reset" class="btn btn-secondary" id="reset-form-btn">Clear</button>
+                    <button type="button" class="btn btn-secondary" id="cancel-edit-btn" style="display:none;">Cancel Edit</button>
+                </div>
+            </form>
+        </div>
+
+        <!-- Products Table -->
+        <div class="product-table-container">
+            <h3 class="mb-4">Product Inventory</h3>
+            <div class="table-responsive">
+                <table class="table table-striped table-hover">
+                    <thead class="table-dark">
+                        <tr>
+                            <th>ID</th>
+                            <th>Image</th>
+                            <th>Name</th>
+                            <th>Price</th>
+                            <th>Stock</th>
+                            <th>Description</th>
+                            <th>Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody id="products-table-body">
+                        <!-- Products will be loaded here -->
+                    </tbody>
+                </table>
+            </div>
+            <p class="text-muted mt-3"><small>Total products: <span id="product-count">0</span></small></p>
+        </div>
+    </div>
+
+    <!-- Bootstrap & Font Awesome -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js" crossorigin="anonymous"></script>
+    <script src="admin.js"></script>
+</body>
+</html>

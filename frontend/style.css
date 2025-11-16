@@ -1,6 +1,6 @@
 
 body, .app-bg {
-    background-color: #001D51; /* Pantone Imperial Blue */
+    background-color: #ffffff; /* Pantone Imperial Blue */
     color: #ffffff; /* light text for contrast on dark background */
     font-family: 'Inter', sans-serif;
 }
@@ -18,7 +18,7 @@ body, .app-bg {
 }
 
 .navbar-brand, .nav-link {
-    color: #f3f4f6 !important;
+    color: #000000 !important;
 }
 
 .navbar-brand {
@@ -26,11 +26,26 @@ body, .app-bg {
     font-weight: 700;
 }
 
+.btn-outline-light {
+    color: #000000 !important;
+    border-color: #000000 !important;
+}
+
+.btn-outline-light:hover {
+    background-color: #000000 !important;
+    border-color: #000000 !important;
+}
+
+h2.text-light {
+    color: #000000 !important;
+    font-family: 'Elms Sans', sans-serif;
+}
+
 /* --- 3. Product Cards Enhancement --- */
 .card {
-    background-color: #26374D; /* True Navy (attachment) */
-    border: 1px solid #1f2b3a; /* darker navy border */
-    color: #f8fafc; /* light text on navy card */
+    background-color: #f8f8f8; /* True Navy (attachment) */
+    border: 1px solid #cacaca; /* darker navy border */
+    color: #000000; /* light text on navy card */
     transition: transform 0.3s ease, box-shadow 0.3s ease;
     border-radius: 12px; 
 }
@@ -51,31 +66,31 @@ body, .app-bg {
 
 .card-title {
     font-weight: 600;
-    color: #f8fafc;
+    color: #000000;
 }
 
 .card-text {
-    color: #e6eef6 !important; 
+    color: #000000 !important; 
 }
 
 .card-text.fw-bold.fs-4 {
-    color: #10b981; 
+    color: #000000; 
     font-size: 1.8rem !important;
 }
 
 /* --- 4. Call-to-Action Buttons --- */
 
 .btn-primary {
-    background-color: #3b82f6 !important; 
-    border-color: #3b82f6 !important;
+    background-color: #333333 !important; 
+    border-color: #363637 !important;
     font-weight: 600;
     transition: background-color 0.2s;
     border-radius: 8px;
 }
 
 .btn-primary:hover {
-    background-color: #2563eb !important; 
-    border-color: #2563eb !important;
+    background-color: #010a1b !important; 
+    border-color: #000613 !important;
 }
 
 .btn-danger {
