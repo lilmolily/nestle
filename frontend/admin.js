@@ -165,7 +165,7 @@ document.addEventListener('DOMContentLoaded', async function() {
 
     document.getElementById('product-form').addEventListener('submit', async function(e) {
         e.preventDefault();
-        
+
         const name = document.getElementById('product-name').value.trim();
         const price = parseFloat(document.getElementById('product-price').value);
         const desc = document.getElementById('product-desc').value.trim();
@@ -180,6 +180,18 @@ document.addEventListener('DOMContentLoaded', async function() {
             stock,
             imageUrl,
         };
+
+        // Optimistic local update: show product immediately in admin UI while attempting backend save
+        let tempLocalId = null;
+        if (!editingId) {
+            tempLocalId = `LOCAL-${Date.now()}`;
+            // Avoid duplicating if loadProducts already provided products
+            products = getAdminProducts();
+            products.push({ id: tempLocalId, name: name, price: price, desc: desc, stock: stock, image: imageUrl });
+            saveAdminProducts(products);
+            renderProductsTable();
+            // Keep form until backend confirms (so admin can see the added item)
+        }
 
         try {
             if (editingId) {
@@ -212,6 +224,7 @@ document.addEventListener('DOMContentLoaded', async function() {
 
                 if (res.ok) {
                     alert('Product added successfully!');
+                    // Replace local optimistic list with server list
                     await loadProducts();
                     renderProductsTable();
                     this.reset();
@@ -222,6 +235,7 @@ document.addEventListener('DOMContentLoaded', async function() {
         } catch (err) {
             console.warn('Backend error, falling back to localStorage:', err);
             // Fallback to localStorage
+            // If editing, update the existing local product
             if (editingId) {
                 const product = products.find(p => p.id === editingId);
                 if (product) {
@@ -233,21 +247,19 @@ document.addEventListener('DOMContentLoaded', async function() {
                     alert('Product updated (local)!');
                 }
             } else {
-                const newId = products.length > 0 ? Math.max(...products.map(p => parseInt(p.id) || 0)) + 1 : 1;
-                products.push({
-                    id: String(newId),
-                    name: name,
-                    price: price,
-                    desc: desc,
-                    stock: stock,
-                    image: imageUrl
-                });
-            alert('Product added successfully!');
-        }
+                // If optimistic insert already added a temp item, keep it; otherwise add a new one
+                products = getAdminProducts();
+                if (!products.find(p => p.id === tempLocalId)) {
+                    const newId = products.length > 0 ? Math.max(...products.map(p => parseInt(p.id) || 0)) + 1 : 1;
+                    products.push({ id: String(newId), name: name, price: price, desc: desc, stock: stock, image: imageUrl });
+                }
+                alert('Product added locally (backend unavailable).');
+            }
 
-        saveAdminProducts(products);
-        renderProductsTable();
-        resetFormToAddMode();
+            saveAdminProducts(products);
+            renderProductsTable();
+            resetFormToAddMode();
+        }
     });
 
     // Handle image search
